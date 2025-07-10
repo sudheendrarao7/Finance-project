@@ -1,4 +1,4 @@
-# app.py
+
 import streamlit as st
 import yfinance as yf
 import numpy as np
@@ -20,7 +20,7 @@ top_10_firms = {
     "JPMorgan Chase": "JPM",
     "Johnson & Johnson": "JNJ"
 }
-# Dropdown for top 10 firms
+
 selected_firm = st.selectbox("Select a Firm", list(top_10_firms.keys()))
 ticker_symbol = top_10_firms[selected_firm]
 
@@ -30,6 +30,9 @@ ticker = yf.Ticker(ticker_symbol)
 expiry_dates = ticker.options
 selected_expiry = st.selectbox("Choose Expiry Date", expiry_dates)
 
+#Fetch the stock price
+stock_info = ticker.history(period="1d")
+st.write(f"Current Stock Price of {selected_firm} ({ticker_symbol}): ${stock_info['Close'].iloc[-1]:.2f}")  
 
 chain = ticker.option_chain(selected_expiry)
 
